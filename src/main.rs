@@ -108,12 +108,12 @@ fn html_unescape(s: &str) -> String {
             } else if s[i..].starts_with("&#x") || s[i..].starts_with("&#X") {
                 if let Some(j) = s[i..].find(';') {
                     let hex = &s[i + 3..i + j];
-                    if let Ok(code) = u32::from_str_radix(hex, 16) {
-                        if let Some(ch) = std::char::from_u32(code) {
-                            out.push(ch);
-                            i += j + 1;
-                            continue;
-                        }
+                    if let Ok(code) = u32::from_str_radix(hex, 16)
+                        && let Some(ch) = std::char::from_u32(code)
+                    {
+                        out.push(ch);
+                        i += j + 1;
+                        continue;
                     }
                 }
                 out.push('&');
@@ -121,12 +121,12 @@ fn html_unescape(s: &str) -> String {
             } else if s[i..].starts_with("&#") {
                 if let Some(j) = s[i..].find(';') {
                     let num = &s[i + 2..i + j];
-                    if let Ok(code) = num.parse::<u32>() {
-                        if let Some(ch) = std::char::from_u32(code) {
-                            out.push(ch);
-                            i += j + 1;
-                            continue;
-                        }
+                    if let Ok(code) = num.parse::<u32>()
+                        && let Some(ch) = std::char::from_u32(code)
+                    {
+                        out.push(ch);
+                        i += j + 1;
+                        continue;
                     }
                 }
                 out.push('&');
@@ -198,13 +198,11 @@ fn update_or_add_class(attrs: &str, add_classes: &str, add_lang: Option<&str>) -
         attrs_owned = re_sq
             .replace(&attrs_owned, format!("class='{}'", new_class).as_str())
             .to_string();
-    } else {
-        if !combined.is_empty() {
-            if attrs_owned.trim().is_empty() {
-                attrs_owned = format!(" class=\"{}\"", combined);
-            } else {
-                attrs_owned = format!("{} class=\"{}\"", attrs_owned, combined);
-            }
+    } else if !combined.is_empty() {
+        if attrs_owned.trim().is_empty() {
+            attrs_owned = format!(" class=\"{}\"", combined);
+        } else {
+            attrs_owned = format!("{} class=\"{}\"", attrs_owned, combined);
         }
     }
 
@@ -244,13 +242,13 @@ fn highlight_html(input: &str) -> String {
                 }
             }
         }
-        if lang_opt.is_none() {
-            if let Some(pc) = pre_class.clone() {
-                for token in pc.split_whitespace() {
-                    if configs.contains_key(token) {
-                        lang_opt = Some(token.to_string());
-                        break;
-                    }
+        if lang_opt.is_none()
+            && let Some(pc) = pre_class.clone()
+        {
+            for token in pc.split_whitespace() {
+                if configs.contains_key(token) {
+                    lang_opt = Some(token.to_string());
+                    break;
                 }
             }
         }
