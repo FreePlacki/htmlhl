@@ -291,7 +291,7 @@ fn highlight_html(input: &str) -> String {
                     // ensure code gets both sourceCode and the language class so downstream CSS / js can find it
                     let new_code_attrs = update_or_add_class(code_attrs, "sourceCode", Some(&lang));
                     format!(
-                        "<pre{}><code{}>{}</code></pre>",
+                        "<div class=\"sourceCode\"><pre{}><code{}>{}</code></pre></div>",
                         new_pre_attrs, new_code_attrs, rendered
                     )
                 }
