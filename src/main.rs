@@ -9,8 +9,10 @@ use tree_sitter::Language;
 use tree_sitter_highlight::{Highlight, HighlightConfiguration, Highlighter, HtmlRenderer};
 
 unsafe extern "C" {
-    fn tree_sitter_javascript() -> Language;
     fn tree_sitter_rust() -> Language;
+    fn tree_sitter_javascript() -> Language;
+    fn tree_sitter_html() -> Language;
+    fn tree_sitter_css() -> Language;
     fn tree_sitter_python() -> Language;
 }
 
@@ -30,6 +32,24 @@ fn language_map() -> HashMap<&'static str, (Language, &'static str, &'static str
         (
             unsafe { tree_sitter_javascript() },
             tree_sitter_javascript::HIGHLIGHT_QUERY,
+            "",
+            "",
+        ),
+    );
+    m.insert(
+        "html",
+        (
+            unsafe { tree_sitter_html() },
+            tree_sitter_html::HIGHLIGHTS_QUERY,
+            "",
+            "",
+        ),
+    );
+    m.insert(
+        "css",
+        (
+            unsafe { tree_sitter_css() },
+            tree_sitter_css::HIGHLIGHTS_QUERY,
             "",
             "",
         ),
