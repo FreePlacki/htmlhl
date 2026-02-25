@@ -63,6 +63,15 @@ fn language_map() -> HashMap<&'static str, (Language, &'static str, &'static str
             "",
         ),
     );
+    m.insert(
+        "dart",
+        (
+            tree_sitter_dart::language(),
+            "",
+            "",
+            "",
+        ),
+    );
     m
 }
 
