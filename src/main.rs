@@ -14,6 +14,7 @@ unsafe extern "C" {
     fn tree_sitter_html() -> Language;
     fn tree_sitter_css() -> Language;
     fn tree_sitter_python() -> Language;
+    // fn tree_sitter_dart() -> Language;
 }
 
 fn language_map() -> HashMap<&'static str, (Language, &'static str, &'static str, &'static str)> {
@@ -23,8 +24,8 @@ fn language_map() -> HashMap<&'static str, (Language, &'static str, &'static str
         (
             unsafe { tree_sitter_rust() },
             tree_sitter_rust::HIGHLIGHTS_QUERY,
-            "",
-            "",
+            tree_sitter_rust::INJECTIONS_QUERY,
+            tree_sitter_rust::TAGS_QUERY,
         ),
     );
     m.insert(
@@ -66,8 +67,8 @@ fn language_map() -> HashMap<&'static str, (Language, &'static str, &'static str
     m.insert(
         "dart",
         (
-            tree_sitter_dart::language(),
-            "",
+            tree_sitter_dart_orchard::LANGUAGE.into(),
+            tree_sitter_dart_orchard::HIGHLIGHTS_QUERY,
             "",
             "",
         ),
